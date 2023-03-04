@@ -1,9 +1,15 @@
+import useToken from "@/components/custom hooks/useToken";
 import { signUp } from "@/lib/api";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 export default function SignUp() {
+  const { token, setToken } = useToken();
+
   const router = useRouter();
+  if (token) {
+    router.replace("/");
+  }
   const [formdata, setFormData] = useState({
     first: "",
     second: "",
@@ -11,14 +17,19 @@ export default function SignUp() {
     password: "",
   });
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", formdata.first + " " + formdata.second);
     formData.append("email", formdata.email);
     formData.append("password", formdata.password);
-    signUp(formData);
-    router.replace("/");
+    try {
+      const { data } = await signUp(formData);
+      setToken(data);
+      router.replace("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,4 +1,4 @@
-import GlobalProvider from "@/context/globalContext";
+import GlobalProvider from "@/context/globalContextProvider";
 import { ReactNode } from "react";
 
 interface Props {

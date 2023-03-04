@@ -1,19 +1,33 @@
+import useToken from "@/components/custom hooks/useToken";
+import { GlobalContext, GlobalContextProvInf } from "@/context/globalContext";
 import { signIn } from "@/lib/api";
-
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 
 export default function Login() {
+  const { token, setToken } = useToken();
+
+  const router = useRouter();
+  if (token) {
+    router.replace("/");
+  }
   const [formdata, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("email", formdata.email);
     formData.append("password", formdata.password);
-    signIn(formData);
+    try {
+      const { data } = await signIn(formData);
+      setToken(data);
+      router.replace("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

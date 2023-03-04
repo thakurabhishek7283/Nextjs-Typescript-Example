@@ -1,7 +1,28 @@
 import CreateCard from "@/components/create_card";
 import ContactList from "@/components/c_list";
 
+import { useContext, useEffect } from "react";
+
+import { fetchContacts } from "@/lib/api";
+import { GlobalContext, GlobalContextProvInf } from "@/context/globalContext";
+
 export default function Home() {
+  const { handleContactList } = useContext(
+    GlobalContext
+  ) as GlobalContextProvInf;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await fetchContacts();
+        const { contactList } = data;
+        handleContactList(contactList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <main className="min-h-screen flex p-10">
       <div className="flex-1 lg:p-10">
