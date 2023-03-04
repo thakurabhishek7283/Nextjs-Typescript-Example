@@ -15,7 +15,11 @@ export default function ContactList() {
     <div className="space-y-3 overflow-y-scroll h-full">
       {Contacts.map((Contact) => {
         return (
-          <MemoContactCard ContactItem={Contact} setContacts={setContacts} />
+          <MemoContactCard
+            key={Contact.id}
+            ContactItem={Contact}
+            setContacts={setContacts}
+          />
         );
       })}
     </div>

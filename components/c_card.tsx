@@ -1,6 +1,7 @@
+import { editContact } from "@/lib/api";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 
-interface ContactItemInf {
+export interface ContactItemInf {
   id: string;
   contactName: string;
   contactNumber: string;
@@ -30,24 +31,26 @@ const MemoContactCard = React.memo(
 
     const handleEditContact = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
+      editContact(EditContactState.current, EditContactState.current.id);
       setEditable(true);
     };
 
     const handleEditChanges = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      console.log(EditContactState);
-      // setContacts((prev): any => {
-      //   const t = prev.map((p) => {
-      //     p.id != EditContactState.current.id
-      //       ? p
-      //       : {
-      //           contactName: EditContactState.current.contactName,
-      //           id: EditContactState.current.id,
-      //           contactNumber: EditContactState.current.contactNumber,
-      //         };
-      //   });
-      //   return t;
-      // });
+      setContacts((prev): any => {
+        const t = prev.map((p) => {
+          return p.id != EditContactState.current.id
+            ? p
+            : {
+                contactName: EditContactState.current.contactName,
+                id: EditContactState.current.id,
+                contactNumber: EditContactState.current.contactNumber,
+              };
+        });
+        console.log(t);
+        return t;
+      });
+      setEditable(false);
       // above logic should be replace with useContext and also maintain Authentication
     };
 
