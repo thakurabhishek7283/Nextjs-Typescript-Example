@@ -11,7 +11,7 @@ interface ReactProp {
   contactItem: ContactItemInf;
 }
 
-const MemoContactCard = React.memo(({ contactItem }: ReactProp) => {
+const MemoContactCard = ({ contactItem }: ReactProp) => {
   const [isEditable, setEditable] = React.useState(false);
 
   const EditContactState = useRef<ContactItemInf>({
@@ -131,6 +131,6 @@ const MemoContactCard = React.memo(({ contactItem }: ReactProp) => {
       </div>
     </div>
   );
-});
+};
 
-export default MemoContactCard;
+export default React.memo(MemoContactCard);

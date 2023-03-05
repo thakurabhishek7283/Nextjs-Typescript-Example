@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import useToken from "./custom hooks/useToken";
@@ -10,12 +12,11 @@ export default function Layout({ children }: Props) {
   const router = useRouter();
   const { token } = useToken();
   useEffect(() => {
-    console.log("layout render");
     if (typeof token !== "undefined") {
       setLogin(true);
       router.replace("/");
     }
-  }, [token]);
+  }, [token, router]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -31,14 +32,14 @@ export default function Layout({ children }: Props) {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Contact List</span>
-              <img
+              <Image
                 className="h-8"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
-            </a>
+            </Link>
           </div>
 
           <div className="flex lg:gap-x-12">

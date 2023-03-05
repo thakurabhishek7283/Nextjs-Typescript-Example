@@ -1,6 +1,7 @@
 import useToken from "@/components/custom hooks/useToken";
 import Layout from "@/components/layout";
 import { signUp } from "@/lib/api";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
@@ -109,12 +110,12 @@ export default function SignUp() {
 
               <div className="flex items-center justify-between">
                 <div className="text-sm">
-                  <a
-                    href="#"
+                  <Link
+                    href="/auth/signup"
                     className="font-medium text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -126,12 +127,12 @@ export default function SignUp() {
                   Sign up
                 </button>
                 <div>
-                  <a
+                  <Link
                     href="/auth/login"
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     Already a user ?
-                  </a>
+                  </Link>
                 </div>
               </div>
             </form>

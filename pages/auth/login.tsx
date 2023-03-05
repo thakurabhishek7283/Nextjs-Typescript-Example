@@ -2,6 +2,7 @@ import useToken from "@/components/custom hooks/useToken";
 import Layout from "@/components/layout";
 import { GlobalContext, GlobalContextProvInf } from "@/context/globalContext";
 import { signIn } from "@/lib/api";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
@@ -77,12 +78,12 @@ export default function Login() {
 
               <div className="flex items-center justify-between">
                 <div className="text-sm">
-                  <a
+                  <Link
                     href="#"
                     className="font-medium text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -94,12 +95,12 @@ export default function Login() {
                   Sign in
                 </button>
                 <div>
-                  <a
+                  <Link
                     href="/auth/signup"
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     Not a user ?
-                  </a>
+                  </Link>
                 </div>
               </div>
             </form>
