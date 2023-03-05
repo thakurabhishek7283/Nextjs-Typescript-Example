@@ -4,11 +4,10 @@ import MemoContactCard from "./c_card";
 
 export default function ContactList() {
   const { GlobalState } = useContext(GlobalContext) as GlobalContextProvInf;
-
   return (
     <div className="space-y-3 overflow-y-scroll h-full">
-      {GlobalState.ContactList.map((Contact) => {
-        return <MemoContactCard key={Contact.id} ContactItem={Contact} />;
+      {GlobalState?.contactList?.map((Contact) => {
+        return <MemoContactCard key={Contact.id} contactItem={Contact} />;
       })}
     </div>
   );

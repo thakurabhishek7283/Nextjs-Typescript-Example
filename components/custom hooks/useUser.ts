@@ -2,14 +2,16 @@ import { useState } from "react";
 
 export default function useUser() {
   const getUser = () => {
-    const tokenString = localStorage.getItem("token") as string;
-    const userToken = JSON.parse(tokenString);
-    return userToken?.user_id;
+    if (typeof window !== "undefined") {
+      const tokenString = localStorage.getItem("token") as string;
+      const userToken = JSON.parse(tokenString);
+      return userToken?.userId;
+    }
   };
 
-  const [user, setUser] = useState(getUser());
+  const [userId, setUser] = useState(getUser());
 
   return {
-    user,
+    userId,
   };
 }

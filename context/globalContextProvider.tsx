@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GlobalContext, GlobalContextInf } from "./globalContext";
 
 const initial = {
-  ContactList: [
+  contactList: [
     {
       id: "",
       contactName: "",
@@ -14,19 +14,50 @@ const initial = {
 // NextComponentType<NextPageContext, any, any>
 const GlobalProvider: any = ({ children }: any) => {
   const [GlobalState, SetGlobalState] = useState<GlobalContextInf>(initial);
-  console.log("global context provider");
 
   const handleContactList = (data: any) => {
-    SetGlobalState((prev) => {
-      return { ...prev, ContactList: data };
+    const t = data.map((d: any) => {
+      return {
+        id: d._id,
+        contactName: d.contactName,
+        contactNumber: d.contactNumber,
+      };
     });
+
+    SetGlobalState({ contactList: t });
   };
   const handleContactEditStore = (data: any) => {
-    const updatedContactList = GlobalState.ContactList.filter((Contact) => {
-      return Contact.id != data.id;
+    SetGlobalState((prev): any => {
+      const t = prev.contactList?.filter((Contact) => Contact.id != data._id);
+      t?.push({
+        id: data._id,
+        contactName: data.contactName,
+        contactNumber: data.contactNumber,
+      });
+      if (typeof t == "undefined") {
+        return {
+          contactList: [
+            {
+              id: data._id,
+              contactName: data.contactName,
+              contactNumber: data.contactNumber,
+            },
+          ],
+        };
+      } else {
+        return { contactList: t };
+      }
     });
-    updatedContactList.push(data);
-    SetGlobalState({ ContactList: updatedContactList });
+    console.log(GlobalState);
+  };
+  const handleDeleteContactStore = (contactId: string) => {
+    SetGlobalState((prev): any => {
+      const t = prev.contactList.filter((contact) => {
+        return contact.id != contactId;
+      });
+      return { contactList: t };
+    });
+    console.log(GlobalState);
   };
 
   return (
@@ -35,6 +66,7 @@ const GlobalProvider: any = ({ children }: any) => {
         GlobalState,
         handleContactList,
         handleContactEditStore,
+        handleDeleteContactStore,
       }}
     >
       {children}

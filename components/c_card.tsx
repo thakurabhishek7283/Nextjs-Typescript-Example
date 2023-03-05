@@ -1,5 +1,5 @@
 import { GlobalContext, GlobalContextProvInf } from "@/context/globalContext";
-import { editContact } from "@/lib/api";
+import { deleteContact, editContact } from "@/lib/api";
 import React, { useContext, useRef } from "react";
 
 export interface ContactItemInf {
@@ -8,33 +8,49 @@ export interface ContactItemInf {
   contactNumber: string;
 }
 interface ReactProp {
-  ContactItem: ContactItemInf;
+  contactItem: ContactItemInf;
 }
 
-const MemoContactCard = React.memo(({ ContactItem }: ReactProp) => {
+const MemoContactCard = React.memo(({ contactItem }: ReactProp) => {
   const [isEditable, setEditable] = React.useState(false);
 
   const EditContactState = useRef<ContactItemInf>({
-    contactName: ContactItem.contactName,
-    contactNumber: ContactItem.contactNumber,
-    id: ContactItem.id,
+    contactName: contactItem.contactName,
+    contactNumber: contactItem.contactNumber,
+    id: contactItem.id,
   });
 
-  const { handleContactList } = useContext(
+  const { handleDeleteContactStore } = useContext(
     GlobalContext
   ) as GlobalContextProvInf;
 
   const handleEditContact = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    editContact(EditContactState.current, EditContactState.current.id);
     setEditable(true);
   };
-
-  const handleEditChanges = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteContact = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
-    editContact(EditContactState.current, EditContactState.current.id);
-    handleContactList(EditContactState.current);
-    setEditable(false);
+    try {
+      await deleteContact(contactItem.id);
+      handleDeleteContactStore(contactItem.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleEditChanges = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      (await editContact(
+        EditContactState.current,
+        EditContactState.current.id
+      )) as any;
+
+      setEditable(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,6 +59,27 @@ const MemoContactCard = React.memo(({ ContactItem }: ReactProp) => {
         isEditable ? "h-50 py-5" : ""
       }`}
     >
+      <button
+        className="absolute top-0 left-0 ml-5 mt-3"
+        onClick={handleDeleteContact}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
+      </button>
       <button
         className="absolute top-0 right-0 mr-5 mt-3"
         onClick={handleEditContact}
@@ -70,7 +107,7 @@ const MemoContactCard = React.memo(({ ContactItem }: ReactProp) => {
           (EditContactState.current.contactName = e.currentTarget.innerText)
         }
       >
-        {ContactItem.contactName}
+        {contactItem.contactName}
       </div>
       <div
         className={isEditable ? "border-double" : ""}
@@ -80,7 +117,7 @@ const MemoContactCard = React.memo(({ ContactItem }: ReactProp) => {
           (EditContactState.current.contactNumber = e.currentTarget.innerText)
         }
       >
-        {ContactItem.contactNumber}
+        {contactItem.contactNumber}
       </div>
       <div className="mt-2">
         {isEditable && (

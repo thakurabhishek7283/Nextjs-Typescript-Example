@@ -4,9 +4,10 @@ export interface GlobalContextProvInf {
   GlobalState: GlobalContextInf;
   handleContactList: (data: any) => void;
   handleContactEditStore: (data: any) => void;
+  handleDeleteContactStore: (data: any) => void;
 }
 export interface GlobalContextInf {
-  ContactList: {
+  contactList: {
     id: string;
     contactName: string;
     contactNumber: string;
