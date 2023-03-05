@@ -2,13 +2,7 @@ import { useState } from "react";
 import { GlobalContext, GlobalContextInf } from "./globalContext";
 
 const initial = {
-  contactList: [
-    {
-      id: "",
-      contactName: "",
-      contactNumber: "",
-    },
-  ],
+  contactList: [],
 };
 
 // NextComponentType<NextPageContext, any, any>
