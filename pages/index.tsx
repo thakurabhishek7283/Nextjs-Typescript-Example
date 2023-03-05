@@ -30,7 +30,7 @@ export default function Home() {
       }
     };
     fetchData();
-  }, [token]);
+  }, [token, router]);
 
   return (
     <Layout>

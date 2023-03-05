@@ -1,7 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
+import { GlobalContext, GlobalContextProvInf } from "@/context/globalContext";
 import { useRouter } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, useContext } from "react";
 import useToken from "./custom hooks/useToken";
 
 interface Props {
@@ -11,6 +10,9 @@ export default function Layout({ children }: Props) {
   const [isLoggedin, setLogin] = useState(false);
   const router = useRouter();
   const { token } = useToken();
+  const { handleContactList } = useContext(
+    GlobalContext
+  ) as GlobalContextProvInf;
   useEffect(() => {
     if (typeof token !== "undefined") {
       setLogin(true);
@@ -20,6 +22,7 @@ export default function Layout({ children }: Props) {
 
   const handleLogout = () => {
     localStorage.clear();
+    handleContactList(undefined);
     setLogin(false);
     router.replace("/auth");
   };
@@ -31,16 +34,7 @@ export default function Layout({ children }: Props) {
           className="flex items-center justify-between drop-shadow-md"
           aria-label="Global"
         >
-          <div className="flex lg:flex-1">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Contact List</span>
-              <Image
-                className="h-8"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
-            </Link>
-          </div>
+          <div className="flex lg:flex-1"></div>
 
           <div className="flex lg:gap-x-12">
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">

@@ -16,14 +16,16 @@ const GlobalProvider: any = ({ children }: any) => {
   const [GlobalState, SetGlobalState] = useState<GlobalContextInf>(initial);
 
   const handleContactList = (data: any) => {
-    const t = data.map((d: any) => {
+    let t = data?.map((d: any) => {
       return {
         id: d._id,
         contactName: d.contactName,
         contactNumber: d.contactNumber,
       };
     });
-
+    if (typeof t == "undefined") {
+      t = [];
+    }
     SetGlobalState({ contactList: t });
   };
   const handleContactEditStore = (data: any) => {
