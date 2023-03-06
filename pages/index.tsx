@@ -34,13 +34,13 @@ export default function Home() {
 
   return (
     <Layout>
-      <main className="min-h-screen flex p-10">
-        <div className="flex-1 lg:p-10">
+      <main className="min-h-screen flex flex-col sm:flex-row p-10">
+        <div className="sm:flex-1 lg:p-10">
           <div className="bg-slate-300 w-full h-full rounded-lg drop-shadow-md min-h-[20vh] max-h-[60vh]">
             <ContactList />
           </div>
         </div>
-        <div className="flex-1 lg:p-10">
+        <div className="sm:flex-1 lg:p-10">
           <div className="bg-stone-300 w-full h-full rounded-lg drop-shadow-md min-h-[20vh] max-h-[60vh]">
             <div className="text-center text-xl font-bold p-10">
               Add Contact
